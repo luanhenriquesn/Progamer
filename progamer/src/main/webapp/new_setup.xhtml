@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Mostrar erros da página com o PrimeFace -->
+		<p:messages id="messages">
+			<p:autoUpdate />
+		</p:messages>
+
+		<!-- Advanced Card -->
+		<p:card class="card-form">
+			<f:facet name="title">
+        		New Setup
+    		</f:facet>
+
+
+			<!-- Form -->
+			<h:form>
+
+				<!-- Form Layout -->
+				<div class="ui-fluid p-formgrid p-grid">
+					<div class="p-field p-grid">
+						<label for="idName" class="p-col-fixed" style="width: 100px">Name</label>
+						<div class="p-col">
+							<p:inputText id="idName" value="#{setupBean.setup.name}"
+								required="true">
+								<f:ajax event="blur" render="messages" />
+							</p:inputText>
+						</div>
+					</div>
+					<div class="p-field p-grid">
+						<label for="idDescription" class="p-col-fixed"
+							style="width: 100px">Description</label>
+						<div class="p-col">
+							<p:inputTextarea id="idDescription"
+								value="#{setupBean.setup.description}">
+								<f:validateLength minimum="50" maximum="255" />
+								<f:ajax event="blur" render="messages" />
+							</p:inputTextarea>
+						</div>
+					</div>
+					<div class="p-field p-grid">
+						<label for="idPrice" class="p-col-fixed" style="width: 100px">Price</label>
+						<div class="p-col">
+							<p:inputText id="idPrice" value="#{setupBean.setup.price}" required="true">
+								<f:validateDoubleRange minimum="0" />
+								<f:ajax event="blur" render="messages" />
+							</p:inputText>
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+
+			<f:facet name="footer">
+				<p:commandButton icon="pi pi-save" value="Save"
+					action="#{setupBean.save}">
+					<f:ajax execute="@form" render="messages" />
+				</p:commandButton>
+				<p:commandButton icon="pi pi-times" value="Cancel"
+					styleClass="ui-button-secondary" style="margin-left: .5em" />
+			</f:facet>
+		</p:card>
+
+
+		<!--Lista de Setups - DataTable-->
+		<div class="card">
+			<h:form id="form">
+				<p:dataTable id="setups" var="setup" value="#{setupBean.userSetups}" >
+					<f:facet name="header">
+                		Setup List
+            		</f:facet>
+					<p:column headerText="Name">
+						<h:outputText value="#{setup.name}" />
+					</p:column>
+					<p:column headerText="Price">
+						<h:outputText value="#{setup.price}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
